@@ -1,42 +1,28 @@
-import { useState } from "react";
-import {
-    Box, Button, Collapse, TextField, FormControl, InputLabel, Select, MenuItem, Slider
-} from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails, FormControl, InputLabel, Select, MenuItem, Typography, Slider } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const Filters = () => {
-    const [open, setOpen] = useState(false);
-    const [yearRange, setYearRange] = useState([2000, 2025]);
-
+const Filters = ({ onFilterChange }) => {
     return (
-        <Box sx={{ my: 2 }}>
-            <Button variant="contained" onClick={() => setOpen(!open)}>
-                {open ? "Hide Filters" : "Advanced Filters"}
-            </Button>
+        <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6">Advanced Filters</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+                {/* Technical vs Theoretical Balance */}
+                <Typography variant="body1">Technical vs Theoretical Balance</Typography>
+                <Slider min={0} max={10} step={1} valueLabelDisplay="auto" />
 
-            <Collapse in={open}>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}>
-                    <TextField label="Keywords" variant="outlined" />
-                    <FormControl>
-                        <InputLabel>Paper Type</InputLabel>
-                        <Select defaultValue="">
-                            <MenuItem value="journal">Journal</MenuItem>
-                            <MenuItem value="conference">Conference</MenuItem>
-                            <MenuItem value="dissertation">Dissertation</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Box>
-                        <InputLabel>Publication Year</InputLabel>
-                        <Slider
-                            value={yearRange}
-                            onChange={(e, newValue) => setYearRange(newValue)}
-                            valueLabelDisplay="auto"
-                            min={1980}
-                            max={2025}
-                        />
-                    </Box>
-                </Box>
-            </Collapse>
-        </Box>
+                {/* Field Impact */}
+                <FormControl fullWidth>
+                    <InputLabel>Impact Across Fields</InputLabel>
+                    <Select onChange={(e) => onFilterChange("impact", e.target.value)}>
+                        <MenuItem value="high">High</MenuItem>
+                        <MenuItem value="medium">Medium</MenuItem>
+                        <MenuItem value="low">Low</MenuItem>
+                    </Select>
+                </FormControl>
+            </AccordionDetails>
+        </Accordion>
     );
 };
 

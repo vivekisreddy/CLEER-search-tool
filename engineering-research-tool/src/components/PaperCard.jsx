@@ -1,18 +1,37 @@
-import { Card, CardContent, Typography, Button } from "@mui/material";
+import { useState } from "react";
+import { Container, Box } from "@mui/material";
+import Navbar from "../components/Navbar";
+import SearchBar from "../components/SearchBar";
+import Filters from "../components/Filters";
+import Results from "../components/Results";
 
-const PaperCard = ({ paper }) => {
+const HomePage = () => {
+    const [results, setResults] = useState([]);
+
+    const handleSearch = (query) => {
+        // Fake data for now
+        setResults([
+            {
+                title: "AI in Engineering Education",
+                authors: ["John Doe", "Jane Smith"],
+                year: 2023,
+                abstract: "This paper explores AI applications in education.",
+            },
+        ]);
+    };
+
     return (
-        <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-                <Typography variant="h6">{paper.title}</Typography>
-                <Typography variant="body2" color="textSecondary">
-                    {paper.author} • {paper.year}
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>{paper.abstract}</Typography>
-                <Button size="small" sx={{ mt: 1 }}>Read More</Button>
-            </CardContent>
-        </Card>
+        <>
+            <Navbar />
+            <Container>
+                <Box my={4}>
+                    <SearchBar onSearch={handleSearch} />
+                    <Filters />
+                    <Results results={results} />
+                </Box>
+            </Container>
+        </>
     );
 };
 
-export default PaperCard;
+export default HomePage;
